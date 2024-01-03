@@ -4,7 +4,7 @@
 #include "tarif_ekle.h"// tarif_ekle fonksiyonun çalışması için gereken kendi oluşturduğumuz kütüphaneyi çağırır.
 #include "menuleri_yazdir.h"// tarif_menuleri_yazdir fonksiyonun çalışması için gereken kendi oluşturduğumuz kütüphaneyi çağırır.
 #include "tarif_duzenle.h"// tarif_duzenle fonksiyonun çalışması için gereken kendi oluşturduğumuz kütüphaneyi çağırır.
-
+#include "tarif_sil.h" // tarif siler.
 #define DOSYA_ADI "tarifler.txt" // Dosya kullanırken her seferinde .txt uzantılı bir yapıyı DOSYA_ADI adı altında sabitleyerek daha temiz bir kod oluşturur.
 #define MAX_TARIF_SAYISI 100 // Kullanıcının girebileceği maksimum tarif sayısını "100" ile sınırlar.
 #define MAX_ADIM_SAYISI 10  // Her tarif için maksimum adım sayısını belirler.
@@ -40,11 +40,12 @@ int main() {
         printf("1. Tarif Ekle\n");
         printf("2. Tarif Duzenle\n");
         printf("3. Tarif Ara\n");
-        printf("4. Cikis\n");
+        printf("4. Tarif Sil\n");
+        printf("5. Cikis.\n");
 
         int secim;
         printf("--------------------------\n");
-        printf("Seciminizi yapin (1-4): ");
+        printf("Seciminizi yapin (1-5): ");
         scanf("%d", &secim);
 
         switch (secim) {
@@ -59,11 +60,15 @@ int main() {
                 break;
             }
             case 4:
+                tarif_sil(tarifler, &tarif_sayisi);
+                break;
+
+            case 5:
                 dosya = fopen(DOSYA_ADI, "w");//yazma modunda dosyayı açar.
                 for (int i = 0; i < tarif_sayisi; ++i) {
                     fprintf(dosya, "%s\n%s\n", tarifler[i].adi, tarifler[i].malzemeler);//hafızaya alınan tariflerin en son halini for döngüsü ile dosyanın içine yazdırır.
                     for (int j = 0; j < tarifler[i].adim_sayisi; ++j) {
-                    fprintf(dosya, "%s\n", tarifler[i].adimlar[j].adim_metni);//hafızaya alınan tariflerin adımlarını ve adım içeriklerinim en son halini for döngüsü ile dosyanın içine yazdırır.
+                        fprintf(dosya, "%s\n", tarifler[i].adimlar[j].adim_metni);//hafızaya alınan tariflerin adımlarını ve adım içeriklerinim en son halini for döngüsü ile dosyanın içine yazdırır.
                     }
                 }
                 fclose(dosya);// Dosyayı kapatır.
@@ -71,7 +76,6 @@ int main() {
             default:
                 printf("--------------------------\n");
                 printf("Gecersiz secim. Lutfen tekrar deneyin.\n");
-        }
-    }
+        }
+    }
 }
-
